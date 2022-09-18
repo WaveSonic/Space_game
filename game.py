@@ -19,7 +19,11 @@ def game(level):
     player = Ship('image/Spaceship/spice_1.png', 10)
     enemys = pygame.sprite.Group()
 
+    font = pygame.font.SysFont('Impact', 24)
+
+
     while True:
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 exit()
@@ -45,6 +49,8 @@ def game(level):
             for bul in Bullet.bullet:
                 if en.rect.collidepoint(bul.rect.x, bul.rect.y):
                     en.hit(Bullet.bullet_damage[Bullet.n])
+                    player.score += en.score
+                    print(player.score)
                     bul.kill()
                     bul.kill_()
 
@@ -62,6 +68,10 @@ def game(level):
             x.bullets.draw(screen)
             x.bullets.update()
         player.bullets.update()
+
+        score = font.render(f"Score: {player.score}", True, (255, 0, 0))
+        screen.blit(score, (0, 0))
+
         pygame.display.update()
         enemys.update()
         clock.tick(FPS)

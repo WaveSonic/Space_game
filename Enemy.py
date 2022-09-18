@@ -20,6 +20,7 @@ class Enemy(pygame.sprite.Sprite):
         self.hp = Enemy.enemy_hp[n]
         self.full_hp = Enemy.enemy_hp[n]
         self.atk = Enemy.enemy_atk[n]
+        self.score = Enemy.enemy_atk[n]
         self.add(group)
         Enemy.enemy.append(self)
 

@@ -12,9 +12,7 @@ def main_menu():
     screen.blit(back, (0, 0))
     button_play = pygame.image.load("image/buttons/play_1.png").convert_alpha()
     button_play_rect = button_play.get_rect(center=(W//2, H//2 - 300))
-    button_exit = pygame.image.load("image/buttons/exit_1.png").convert_alpha()
     button_exit_rect = button_play.get_rect(center=(W//2, H//2 + 300))
-    record_table = pygame.image.load("image/buttons/record_table_1.png").convert_alpha()
     record_table_rect = button_play.get_rect(center=(W//2, H//2))
 
 

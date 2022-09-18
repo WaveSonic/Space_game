@@ -12,6 +12,7 @@ class Ship(pygame.sprite.Sprite):
         self.hp = 500
         self.full_hp = 500
         self.bullets = pygame.sprite.Group()
+        self.score = 0
 
     def left(self):
         self.rect.x -= self.speed
