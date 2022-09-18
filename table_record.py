@@ -1,6 +1,7 @@
 import pygame
+import main
 pygame.init()
-from game import game
+
 
 def table_record():
     W = 1200
@@ -21,7 +22,7 @@ def table_record():
         if button_back_rect.collidepoint(pygame.mouse.get_pos()):
             button_back = pygame.image.load("image/buttons/back_2.png").convert_alpha()
             if pygame.mouse.get_pressed()[0]:
-                game(0)
+                main.main_menu()
         else:
             button_back = pygame.image.load("image/buttons/back_1.png").convert_alpha()
 
