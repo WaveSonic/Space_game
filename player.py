@@ -1,5 +1,6 @@
 import pygame
 from bullet import Bullet
+import json
 pygame.init()
 
 class Ship(pygame.sprite.Sprite):
@@ -45,5 +46,21 @@ class Ship(pygame.sprite.Sprite):
         elif 10 <= self.hp * 100 / self.full_hp < 20:
             self.image.blit(pygame.image.load('image/hp_bar/10_hp.png'), (0, 95))
         if self.hp <= 0:
-            exit()
+            rez = {'6':{'name': "player", 'score':self.score}}
+            with open('record_table.json', 'r') as file:
+                data = json.load(file)
+            data.update(rez)
+            b = sorted(data.items(), key=lambda x: x[1]['score'], reverse=True)
+            if self.score > b[4][1]['score']:
+                new_record = {"1":{'name': b[0][1]['name'], 'score':b[0][1]['score']},
+                              "2": {'name': b[1][1]['name'], 'score': b[1][1]['score']},
+                              "3": {'name': b[2][1]['name'], 'score': b[2][1]['score']},
+                              "4": {'name': b[3][1]['name'], 'score': b[3][1]['score']},
+                              "5": {'name': b[4][1]['name'], 'score': b[4][1]['score']},
+                              }
+                with open('record_table.json', 'w') as file:
+                    json.dump(new_record, file)
+            return True
+
+
 
