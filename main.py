@@ -1,12 +1,12 @@
-from game import game
+import game
 from player import *
 import table_record
 pygame.init()
 
+level = 0
 def main_menu():
     W = 1200
     H = 800
-    level = 0
     screen = pygame.display.set_mode((W, H))
     back = pygame.image.load('image/background/background.png').convert_alpha()
     screen.blit(back, (0, 0))
@@ -20,22 +20,23 @@ def main_menu():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 exit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1 and button_exit_rect.collidepoint(pygame.mouse.get_pos()):
+                    exit()
 
         btn = pygame.key.get_pressed()
         if btn[pygame.K_KP_ENTER]:
-            game(level)
+            game.game()
         if button_play_rect.collidepoint(pygame.mouse.get_pos()):
             button_play = pygame.image.load("image/buttons/play_2.png").convert_alpha()
             if pygame.mouse.get_pressed()[0]:
-                game(level)
+                game.game()
 
         else:
             button_play = pygame.image.load("image/buttons/play_1.png").convert_alpha()
 
         if button_exit_rect.collidepoint(pygame.mouse.get_pos()):
             button_exit = pygame.image.load("image/buttons/exit_2.png").convert_alpha()
-            if pygame.mouse.get_pressed()[0]:
-                exit()
         else:
             button_exit = pygame.image.load("image/buttons/exit_1.png").convert_alpha()
 

@@ -4,14 +4,19 @@ import json
 pygame.init()
 
 class Ship(pygame.sprite.Sprite):
-    def __init__(self, file, speed):
+    level = 0
+    hp = [500, 1000, 1500, 3000, 5000]
+    price = [5000, 10000, 25000, 50000, 0]
+    skins = ['image/Spaceship/spice_1.png', 'image/Spaceship/spice_2.png', 'image/Spaceship/spice_3.png',
+             'image/Spaceship/spice_4.png', 'image/Spaceship/spice_5.png']
+    def __init__(self, speed):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load(file).convert_alpha()
+        self.image = pygame.image.load(Ship.skins[Ship.level]).convert_alpha()
         self.image.blit(pygame.image.load('image/hp_bar/100_hp.png'), (0, 95))
         self.rect = self.image.get_rect(bottomleft=(600, 800))
         self.speed = speed
-        self.hp = 500
-        self.full_hp = 500
+        self.hp = Ship.hp[Ship.level]
+        self.full_hp = Ship.hp[Ship.level]
         self.bullets = pygame.sprite.Group()
         self.score = 0
 
@@ -20,6 +25,12 @@ class Ship(pygame.sprite.Sprite):
 
     def right(self):
         self.rect.x += self.speed
+
+    def up(self):
+        self.rect.y -= self.speed
+
+    def doun(self):
+        self.rect.y += self.speed
 
     def shoot(self):
         bullet = Bullet(self.rect.x + 50, self.rect.y, self.bullets)
@@ -61,6 +72,35 @@ class Ship(pygame.sprite.Sprite):
                 with open('record_table.json', 'w') as file:
                     json.dump(new_record, file)
             return True
+
+    def upgrade_level_hp(self):
+        if Ship.level_hp >= 4:
+            Ship.level_hp = 4
+        Ship.level_hp += 1
+        self.hp = Ship.hp[Ship.level_hp]
+        self.full_hp = Ship.hp[Ship.level_hp]
+
+
+    def heal(self):
+        if self.score >= (self.full_hp - self.hp) * 5:
+            self.score -= (self.full_hp - self.hp) * 5
+            self.hp = self.full_hp
+            self.image.blit(pygame.image.load('image/hp_bar/100_hp.png'), (0, 95))
+
+    def upgrade(self):
+        if self.score >= Ship.price[Ship.level]+(self.full_hp - self.hp) * 5:
+            self.score -= Ship.price[Ship.level]+(self.full_hp - self.hp) * 5
+            Ship.level += 1
+            if Ship.level >= 4:
+                Ship.level = 4
+            self.full_hp = Ship.hp[Ship.level]
+            self.image = pygame.image.load(Ship.skins[Ship.level]).convert_alpha()
+            self.hp = self.full_hp
+            self.image.blit(pygame.image.load('image/hp_bar/100_hp.png'), (0, 95))
+            print(self.hp)
+
+
+
 
 
 

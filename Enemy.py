@@ -3,12 +3,15 @@ from random import random, randint
 from bullet import Enemy_bullet
 pygame.init()
 
+
 class Enemy(pygame.sprite.Sprite):
     enemy = []
+    level = 0
     enemy_image = ['image/Spaceship/ship_2.png', 'image/Spaceship/ship_3.png', 'image/Spaceship/ship_4.png',
                    'image/Spaceship/ship_5.png', 'image/Spaceship/ship_6.png']
     enemy_hp = [100, 200, 400, 1000, 2000]
     enemy_atk = [50, 100, 200, 400, 1000]
+    price = [2500, 5000, 10000, 15000, 25000, 50000, 0]
     bullets = pygame.sprite.Group()
 
     def __init__(self, n, x, y, group):
@@ -64,16 +67,16 @@ class Enemy(pygame.sprite.Sprite):
         return bullet
 
     @staticmethod
-    def create(group, level):
+    def create(group):
         n = random()
-        if level == 0:
+        if Enemy.level == 0:
             if n >= 0.2:
                 e = Enemy(0, randint(0, 1100), 0, group)
                 return e
             elif n < 0.4:
                 e = Enemy(1, randint(0, 1100), 0, group)
                 return e
-        elif level == 1:
+        elif Enemy.level == 1:
             if n >= 0.6:
                 e = Enemy(0, randint(0, 1100), 0, group)
                 return e
@@ -83,7 +86,7 @@ class Enemy(pygame.sprite.Sprite):
             else:
                 e = Enemy(2, randint(0, 1100), 0, group)
                 return e
-        elif level == 2:
+        elif Enemy.level == 2:
             if n >= 0.7:
                 e = Enemy(0, randint(0, 1100), 0, group)
                 return e
@@ -96,7 +99,7 @@ class Enemy(pygame.sprite.Sprite):
             else:
                 e = Enemy(3, randint(0, 1100), 0, group)
                 return e
-        elif level == 3:
+        elif Enemy.level == 3:
             if n >= 0.8:
                 e = Enemy(0, randint(0, 1100), 0, group)
                 return e
@@ -112,7 +115,7 @@ class Enemy(pygame.sprite.Sprite):
             else:
                 e = Enemy(4, randint(0, 1100), 0, group)
                 return e
-        elif level == 4:
+        elif Enemy.level == 4:
             if n >= 0.8:
                 e = Enemy(1, randint(0, 1100), 0, group)
                 return e
@@ -125,7 +128,7 @@ class Enemy(pygame.sprite.Sprite):
             else:
                 e = Enemy(4, randint(0, 1100), 0, group)
                 return e
-        elif level == 5:
+        elif Enemy.level == 5:
             if n >= 0.8:
                 e = Enemy(2, randint(0, 1100), 0, group)
                 return e
@@ -135,7 +138,7 @@ class Enemy(pygame.sprite.Sprite):
             else:
                 e = Enemy(4, randint(0, 1100), 0, group)
                 return e
-        elif level == 6:
+        elif Enemy.level == 6:
             if n >= 0.5:
                 e = Enemy(3, randint(0, 1100), 0, group)
                 return e
@@ -145,6 +148,17 @@ class Enemy(pygame.sprite.Sprite):
         else:
             e = Enemy(4, randint(0, 1100), 0, group)
             return e
+
+    @classmethod
+    def level_up(cls, obj):
+        if obj.score >= cls.price[cls.level]:
+            obj.score -= cls.price[cls.level]
+            cls.level += 1
+            if cls.level >= 6:
+                cls.level = 6
+
+
+
 
 
 
