@@ -2,8 +2,8 @@ import pygame
 from random import random, randint
 from bullet import Enemy_bullet
 pygame.init()
-
-
+kill = pygame.mixer.Sound('sound/kill.wav')
+kill.set_volume(1)
 class Enemy(pygame.sprite.Sprite):
     enemy = []
     level = 0
@@ -30,13 +30,12 @@ class Enemy(pygame.sprite.Sprite):
 
     def update(self):
         n = random()
-        if n < 0.005:
+        if n < 0.008:
             self.shoot()
         self.rect.y += 3
         if self.rect.y >= 800:
-            self.kill()
             Enemy.enemy.pop(Enemy.enemy.index(self))
-
+            self.kill()
     def hit(self, value):
         self.hp -= value
         if self.hp * 100 / self.full_hp >= 90:
@@ -58,6 +57,7 @@ class Enemy(pygame.sprite.Sprite):
         elif 10 <= self.hp * 100 / self.full_hp < 20:
             self.image.blit(pygame.image.load('image/hp_bar/10_hp.png'), (0, 0))
         if self.hp <= 0:
+            kill.play()
             self.kill()
             Enemy.enemy.pop(Enemy.enemy.index(self))
 

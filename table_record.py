@@ -4,6 +4,7 @@ import json
 pygame.init()
 
 def table_record():
+    kn1 = False
     with open('record_table.json', 'r') as file:
         data = json.load(file)
 
@@ -57,10 +58,14 @@ def table_record():
 
         if button_back_rect.collidepoint(pygame.mouse.get_pos()):
             button_back = pygame.image.load("image/buttons/back_2.png").convert_alpha()
+            if kn1 == False:
+                main.kn.play()
+            kn1 = True
             if pygame.mouse.get_pressed()[0]:
                 main.main_menu()
         else:
             button_back = pygame.image.load("image/buttons/back_1.png").convert_alpha()
+            kn1 = False
 
         screen.blit(button_back, button_back_rect)
         pygame.display.update()

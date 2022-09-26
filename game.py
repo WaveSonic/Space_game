@@ -1,14 +1,24 @@
+import pygame.mixer_music
 from Enemy import Enemy
 from player import *
 from bullet import Bullet, Enemy_bullet
 from game_over import game_over
 from pause import pause
 from upgarade import upgrade
+
+pygame.mixer.music.load('sound/back.wav')
+pygame.mixer.music.play(-1)
+pygame.mixer.music.set_volume(0.6)
+p = pygame.mixer.Sound('sound/pause.wav')
+p.set_volume(0.6)
+hit = pygame.mixer.Sound('sound/hit.wav')
+hit.set_volume(0.6)
+
+
 pygame.init()
-
-
 def game():
     # USER_EVENT
+
     fire = pygame.USEREVENT + 0
     pygame.time.set_timer(fire, 500)
     create_enemy = pygame.USEREVENT + 1
@@ -22,7 +32,9 @@ def game():
     player = Ship(10)
     enemys = pygame.sprite.Group()
 
+
     font = pygame.font.SysFont('Impact', 24)
+
     g = True
 
 
@@ -33,13 +45,18 @@ def game():
                 exit()
             elif event.type == fire:
                 player.shoot()
+                print(Enemy.enemy)
             elif event.type == create_enemy:
                 Enemy.create(enemys)
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
+                    p.play()
                     pause()
+                    p.play()
                 elif event.key == pygame.K_SPACE:
+                    p.play()
                     upgrade(player)
+                    p.play()
 
 
 
@@ -60,10 +77,13 @@ def game():
             if player.rect.y >= 677:
                 player.rect.y = 677
             player.doun()
+        elif btn[pygame.K_LSHIFT]:
+            player.score = 1000000
 
         for en in Enemy.enemy:
             for bul in Bullet.bullet:
                 if en.rect.collidepoint(bul.rect.x, bul.rect.y):
+                    hit.play()
                     en.hit(bul.damage)
                     player.score += en.score
                     bul.kill()
@@ -71,6 +91,7 @@ def game():
 
         for bullet_en in Enemy_bullet.bullet:
             if player.rect.collidepoint(bullet_en.rect.x, bullet_en.rect.y):
+                hit.play()
                 x = player.hit(bullet_en.atk)
                 bullet_en.kill()
                 bullet_en.kill_()
@@ -98,6 +119,9 @@ def game():
 
         score = font.render(f"Score: {player.score}", True, (255, 0, 0))
         screen.blit(score, (0, 0))
+        tip = font.render('Нажми пробіл аби справити твій корабель', True, (255, 0, 0))
+        if player.hp * 100 / player.full_hp < 30:
+            screen.blit(tip, (400, 0))
 
         enemys.update()
         pygame.display.update()

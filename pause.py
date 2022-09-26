@@ -1,8 +1,8 @@
 import pygame
-from main import main_menu
+import main
 pygame.init()
-
 def pause():
+    kn1 = False
     W = 1200
     H = 800
     screen = pygame.display.set_mode((W, H))
@@ -26,13 +26,17 @@ def pause():
                     on_pause = False
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1 and button_exit_rect.collidepoint(pygame.mouse.get_pos()):
+                    main.main_menu()
                     pygame.display.update()
-                    main_menu()
 
         if button_exit_rect.collidepoint(pygame.mouse.get_pos()):
             button_exit = pygame.image.load("image/buttons/exit_2.png").convert_alpha()
+            if kn1 == False:
+                main.kn.play()
+            kn1 = True
         else:
             button_exit = pygame.image.load("image/buttons/exit_1.png").convert_alpha()
+            kn1 = False
 
         screen.blit(button_exit, button_exit_rect)
         screen.blit(text, text_rect)

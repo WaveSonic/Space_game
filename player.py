@@ -3,7 +3,10 @@ from bullet import Bullet
 import json
 pygame.init()
 
+
 class Ship(pygame.sprite.Sprite):
+    s = pygame.mixer.Sound('sound/vystril_1.wav')
+    s.set_volume(0.1)
     level = 0
     hp = [500, 1000, 1500, 3000, 5000]
     price = [5000, 10000, 25000, 50000, 0]
@@ -34,6 +37,7 @@ class Ship(pygame.sprite.Sprite):
 
     def shoot(self):
         bullet = Bullet(self.rect.x + 50, self.rect.y, self.bullets)
+        Ship.s.play()
         return bullet
 
     def hit(self, value):

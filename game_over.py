@@ -1,5 +1,8 @@
 import pygame
 import game
+import player
+import Enemy
+import bullet
 pygame.init()
 
 
@@ -21,13 +24,16 @@ def game_over(score):
                 exit()
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
-                    game.game(0)
+                    game.game()
 
 
         if button_play_rect.collidepoint(pygame.mouse.get_pos()):
             button_play = pygame.image.load("image/buttons/play_2.png").convert_alpha()
             if pygame.mouse.get_pressed()[0]:
-                game.game(0)
+                Enemy.Enemy.level = 0
+                player.Ship.level = 0
+                bullet.Bullet.level = 0
+                game.game()
         else:
             button_play = pygame.image.load("image/buttons/play_1.png").convert_alpha()
 
